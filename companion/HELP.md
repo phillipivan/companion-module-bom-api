@@ -1,3 +1,3 @@
-## Your module
+## Bureau of Meteorology API
 
-Write some help for your users here!
+Get Australian weather data

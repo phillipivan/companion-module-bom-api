@@ -1,0 +1,121 @@
+export interface location {
+	geohash: string
+	id: string
+	name: string
+	postcode: null | string
+	state: string
+}
+
+export interface LocationInformationResponse {
+	metadata: {
+		response_timestamp: string
+	}
+	data: {
+		geohash: string
+		timezone: string
+		latitude: number
+		longitude: number
+		marine_area_id?: string
+		tidal_point?: string
+		id: string
+		name: string
+		state: string
+	}
+}
+
+export interface SearchResponse {
+	metadata: {
+		response_timestamp: string // Can be converted to Date
+		copyright: string
+	}
+	data: Array<location>
+}
+
+export interface ForecastItem {
+	rain: {
+		amount: {
+			min?: number
+			max?: number
+			units?: string
+		}
+		chance?: number
+	}
+	uv: {
+		category?: string
+		end_time?: string
+		max_index?: number
+		start_time: string
+	}
+	now?: {
+		is_night: boolean
+		now_label: string
+		later_label: string
+		temp_now: number
+		temp_later: number
+	}
+
+	date: string
+	temp_max?: string
+	temp_min?: string
+
+	extended_text: string
+	icon_descriptor: string
+	short_text: string
+	fire_danger?: string
+}
+
+export interface ForecastRequest {
+	data: Array<ForecastItem>
+	metadata: {
+		response_timestamp: string
+		issue_time: string
+		forecast_region: string
+		forecast_type: string
+	}
+}
+
+export interface ObservationResponse {
+	metadata: {
+		response_timestamp: string
+		issue_time: string
+	}
+	data: {
+		temp?: number
+		temp_feels_like?: number
+		rain_since_9am?: number
+		humidity?: number
+		wind?: {
+			speed_kilometre?: number
+			speed_knot?: number
+			direction?: string
+		}
+		gust?: {
+			speed_kilometre?: number
+			speed_knot?: number
+		}
+		station?: {
+			bom_id: string
+			name: string
+			distance: number
+		}
+	}
+}
+
+export interface Warning {
+	id: string
+	type: string
+	title: string
+	short_title: string
+	state: string
+	warning_group_type: string
+	issue_time: string
+	expiry_time: string
+	phase: string
+}
+
+export interface WarningResponse {
+	metadata: {
+		response_timestamp: string
+	}
+	data: Array<Warning>
+}

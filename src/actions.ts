@@ -1,21 +1,33 @@
-import type { ModuleInstance } from './main.js'
+import type { BomAPI } from './main.js'
+import { DropdownChoice } from '@companion-module/base'
 
-export function UpdateActions(self: ModuleInstance): void {
+export function UpdateActions(self: BomAPI): void {
+	const locations: DropdownChoice[] = []
+	self.locations.forEach((location) => {
+		locations.push({ id: location.geohash, label: `${location.name} (${location.state}:${location.postcode})` })
+	})
 	self.setActionDefinitions({
-		sample_action: {
-			name: 'My First Action',
+		selectLocation: {
+			name: 'Select Location',
 			options: [
 				{
-					id: 'num',
-					type: 'number',
-					label: 'Test',
-					default: 5,
-					min: 0,
-					max: 100,
+					id: 'location',
+					type: 'dropdown',
+					label: 'Location',
+					choices: locations,
+					default: locations[0].id ?? 'No Locations available',
+					allowCustom: false,
 				},
 			],
-			callback: async (event) => {
-				console.log('Hello world!', event.options.num)
+			callback: async (action, context) => {
+				if (action.options.location == 'No Locations available') return
+				const location = self.locations.get(
+					await context.parseVariablesInString(action.options.location?.toString() ?? ''),
+				)
+				if (location) {
+					self.location = location
+					await self.updateData(location.geohash)
+				}
 			},
 		},
 	})
