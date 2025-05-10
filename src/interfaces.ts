@@ -52,11 +52,11 @@ export type SearchResponse = z.infer<typeof SearchResponse>
 export const ForecastItem = z.object({
 	rain: z.object({
 		amount: z.object({
-			min: z.number().nullable().optional(),
-			max: z.number().nullable().optional(),
+			min: z.number().min(0).nullable().optional(),
+			max: z.number().min(0).nullable().optional(),
 			units: z.string().nullable().optional(),
 		}),
-		chance: z.number().nullable().optional(),
+		chance: z.number().min(0).max(100).nullable().optional(),
 		chance_of_no_rain_category: z.string(),
 		precipitation_amount_25_percent_chance: z.number().min(0),
 		precipitation_amount_50_percent_chance: z.number().min(0),
@@ -115,19 +115,19 @@ export type ForecastRequest = z.infer<typeof ForecastRequest>
 export const Oberservation = z.object({
 	temp: z.number().nullable().optional(),
 	temp_feels_like: z.number().nullable().optional(),
-	rain_since_9am: z.number().nullable().optional(),
-	humidity: z.number().nullable().optional(),
+	rain_since_9am: z.number().min(0).nullable().optional(),
+	humidity: z.number().min(0).nullable().optional(),
 	wind: z
 		.object({
-			speed_kilometre: z.number().nullable().optional(),
-			speed_knot: z.number().nullable().optional(),
+			speed_kilometre: z.number().min(0).nullable().optional(),
+			speed_knot: z.number().min(0).nullable().optional(),
 			direction: z.string().nullable().optional(),
 		})
 		.optional(),
 	gust: z
 		.object({
-			speed_kilometre: z.number().nullable().optional(),
-			speed_knot: z.number().nullable().optional(),
+			speed_kilometre: z.number().min(0).nullable().optional(),
+			speed_knot: z.number().min(0).nullable().optional(),
 		})
 		.optional(),
 	station: z
