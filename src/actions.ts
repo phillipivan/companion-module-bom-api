@@ -1,11 +1,13 @@
 import type { BomAPI } from './main.js'
 import { DropdownChoice } from '@companion-module/base'
+import { orderBy } from 'lodash'
 
 export function UpdateActions(self: BomAPI): void {
-	const locations: DropdownChoice[] = []
+	let locations: DropdownChoice[] = []
 	self.locations.forEach((location) => {
 		locations.push({ id: location.geohash, label: `${location.name} (${location.state}:${location.postcode})` })
 	})
+	locations = orderBy(locations, ['label'], ['asc'])
 	self.setActionDefinitions({
 		selectLocation: {
 			name: 'Select Location',
