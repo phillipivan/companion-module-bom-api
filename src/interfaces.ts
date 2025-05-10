@@ -1,7 +1,10 @@
 import { z } from 'zod'
 
 export const Location = z.object({
-	geohash: z.string().length(7, { message: 'Must be exactly 7 characters long' }),
+	geohash: z
+		.string()
+		.min(6, { message: 'Must be at least 6 characters long' })
+		.max(7, { message: 'Must be no more than 7 characters long' }),
 	id: z.string(),
 	name: z.string(),
 	postcode: z.string().nullable(),
