@@ -3,6 +3,7 @@ import { CompanionVariableDefinition } from '@companion-module/base'
 
 export function UpdateVariableDefinitions(self: BomAPI): void {
 	const variableDefs: CompanionVariableDefinition[] = []
+	variableDefs.push({ variableId: `mostRecentData`, name: `Most Recent Data` })
 	for (const [key, _value] of Object.entries(self.locationInformation)) {
 		variableDefs.push({ variableId: `locInfo_${key}`, name: `Location Info: ${key}` })
 	}

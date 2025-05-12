@@ -69,6 +69,7 @@ export class BomAPI extends InstanceBase<ModuleConfig> {
 	forecastDaily: ForecastItem[] = []
 	forecastHourly: ForecastItem[] = []
 	warnings: Warning[] = []
+	recentUpdate: string = ''
 	pollTimer!: NodeJS.Timeout
 
 	constructor(internal: unknown) {
@@ -102,6 +103,7 @@ export class BomAPI extends InstanceBase<ModuleConfig> {
 		try {
 			const response = await this.queryApi(API_PATHS.ForecastDaily(geohash))
 			const forecasts = ForecastRequest.parse(response?.data)
+			this.recentUpdate = forecasts.metadata.response_timestamp
 			this.forecastHourly = forecasts.data
 		} catch (e: any) {
 			this.log('warn', `Hourly Forecast request failed: ${typeof e == 'object' ? JSON.stringify(e) : String(e)}`)
@@ -112,6 +114,7 @@ export class BomAPI extends InstanceBase<ModuleConfig> {
 		try {
 			const response = await this.queryApi(API_PATHS.ForecastDaily(geohash))
 			const forecasts = ForecastRequest.parse(response?.data)
+			this.recentUpdate = forecasts.metadata.response_timestamp
 			this.forecastDaily = forecasts.data
 		} catch (e: any) {
 			this.log('warn', `Daily Forecast request failed: ${typeof e == 'object' ? JSON.stringify(e) : String(e)}`)
@@ -122,6 +125,7 @@ export class BomAPI extends InstanceBase<ModuleConfig> {
 		try {
 			const response = await this.queryApi(API_PATHS.Warnings(geohash))
 			const warnings = WarningResponse.parse(response?.data)
+			this.recentUpdate = warnings.metadata.response_timestamp
 			this.warnings = warnings.data
 		} catch (e: any) {
 			this.log('warn', `Warnings request failed: ${typeof e == 'object' ? JSON.stringify(e) : String(e)}`)
@@ -142,6 +146,7 @@ export class BomAPI extends InstanceBase<ModuleConfig> {
 		try {
 			const response = await this.queryApi(API_PATHS.Observations(geohash))
 			const observation = ObservationResponse.parse(response?.data)
+			this.recentUpdate = observation.metadata.response_timestamp
 			this.observation = observation.data
 		} catch (e: any) {
 			this.log('warn', `Observation request failed: ${typeof e == 'object' ? JSON.stringify(e) : String(e)}`)
@@ -212,6 +217,7 @@ export class BomAPI extends InstanceBase<ModuleConfig> {
 
 	updateVariableValues(): void {
 		const values: CompanionVariableValues = {}
+		values['mostRecentData'] = this.recentUpdate
 		for (const [key, value] of Object.entries(this.locationInformation)) {
 			values[`locInfo_${key}`] = value ?? undefined
 		}
