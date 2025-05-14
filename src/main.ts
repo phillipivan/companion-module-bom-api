@@ -67,7 +67,9 @@ export class BomAPI extends InstanceBase<ModuleConfig> {
 	locations: Map<string, Location> = new Map()
 	observation!: Oberservation
 	forecastDaily: ForecastItem[] = []
+	forecastDailyIssuedAt: string = ''
 	forecastHourly: ForecastItem[] = []
+	forecaseHourlyIssuedAt: string = ''
 	warnings: Warning[] = []
 	recentUpdate: string = ''
 	pollTimer!: NodeJS.Timeout
@@ -105,6 +107,7 @@ export class BomAPI extends InstanceBase<ModuleConfig> {
 			const forecasts = ForecastRequest.parse(response?.data)
 			this.recentUpdate = forecasts.metadata.response_timestamp
 			this.forecastHourly = forecasts.data
+			this.forecaseHourlyIssuedAt = forecasts.metadata.issue_time
 		} catch (e: any) {
 			this.log('warn', `Hourly Forecast request failed: ${typeof e == 'object' ? JSON.stringify(e) : String(e)}`)
 		}
@@ -116,6 +119,7 @@ export class BomAPI extends InstanceBase<ModuleConfig> {
 			const forecasts = ForecastRequest.parse(response?.data)
 			this.recentUpdate = forecasts.metadata.response_timestamp
 			this.forecastDaily = forecasts.data
+			this.forecastDailyIssuedAt = forecasts.metadata.issue_time
 		} catch (e: any) {
 			this.log('warn', `Daily Forecast request failed: ${typeof e == 'object' ? JSON.stringify(e) : String(e)}`)
 		}
@@ -218,6 +222,8 @@ export class BomAPI extends InstanceBase<ModuleConfig> {
 	updateVariableValues(): void {
 		const values: CompanionVariableValues = {}
 		values['mostRecentData'] = this.recentUpdate
+		values['fc_day_issued_at'] = this.forecastDailyIssuedAt
+		values['fc_hour_issued_at'] = this.forecaseHourlyIssuedAt
 		for (const [key, value] of Object.entries(this.locationInformation)) {
 			values[`locInfo_${key}`] = value ?? undefined
 		}

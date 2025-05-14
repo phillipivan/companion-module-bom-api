@@ -67,5 +67,13 @@ export function UpdateVariableDefinitions(self: BomAPI): void {
 			}
 		}
 	}
+	variableDefs.push({
+		variableId: `fc_hour_issued_at`,
+		name: `Hourly Forecast Issued At`,
+	})
+	variableDefs.push({
+		variableId: `fc_day_issued_at`,
+		name: `Daliy Forecast Issued At`,
+	})
 	self.setVariableDefinitions(variableDefs)
 }
