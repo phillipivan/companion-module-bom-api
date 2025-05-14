@@ -58,7 +58,7 @@ export function GetConfigFields(): SomeCompanionConfigField[] {
 			id: 'location',
 			label: 'Location',
 			width: 8,
-			regex: '/^[0-9a-zA-Z]{3,}$/',
+			regex: '/^[0-9a-zA-Z -]{3,}$/',
 			default: 'Adelaide',
 			isVisible: (options) => {
 				return options.searchBy == 'name'
