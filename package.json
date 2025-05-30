@@ -16,26 +16,26 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/phillipivan/companion-module-bom-api.git"
+		"url": "git+https://github.com/bitfocus/companion-module-bom-api.git"
 	},
 	"dependencies": {
 		"@companion-module/base": "~1.11.3",
 		"axios": "^1.9.0",
 		"lodash": "~4.17.21",
 		"p-queue": "^8.1.0",
-		"zod": "^3.24.4"
+		"zod": "^3.25.42"
 	},
 	"devDependencies": {
 		"@companion-module/tools": "^2.3.0",
-		"@types/lodash": "4.17.16",
-		"@types/node": "^22.15.18",
+		"@types/lodash": "4.17.17",
+		"@types/node": "^22.15.27",
 		"eslint": "^9.27.0",
 		"husky": "^9.1.7",
-		"lint-staged": "^16.0.0",
+		"lint-staged": "^16.1.0",
 		"prettier": "^3.5.3",
 		"rimraf": "^6.0.1",
 		"typescript": "~5.8.3",
-		"typescript-eslint": "^8.32.1"
+		"typescript-eslint": "^8.33.0"
 	},
 	"engines": {
 		"node": "^22.15"

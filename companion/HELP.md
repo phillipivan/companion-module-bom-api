@@ -12,7 +12,7 @@ When the location search (based on the module config), returns multiple hits, yo
 
 None
 
-### Varaibles
+### Variables
 
 - Daily Forecast
 - Hourly Forecast
